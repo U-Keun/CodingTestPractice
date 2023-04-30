@@ -9,9 +9,8 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int A = Integer.parseInt(st.nextToken());
         int B = Integer.parseInt(st.nextToken());
-        
-        if (A < B) System.out.println("<");
-        else if (A > B) System.out.println(">");
-        else System.out.println("==");
+
+        String answer = (A < B) ? "<" : (A > B) ? ">" : "==";
+        System.out.println(answer);
     }
 }
