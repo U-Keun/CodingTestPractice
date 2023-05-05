@@ -10,15 +10,17 @@ public class Main {
         int answer = 0;
         for (int i = 0; i < L; i++) {
             answer += (input.charAt(i) - 'a' + 1) * power(31, i);
+            answer = answer % 1234567891;
         }
         System.out.println(answer);
    }
     static int power(int n, int k) {
         int prod = 1;
         for (int i = 0; i < k; i++) {
-            prod = prod * n % 1234567891;
+            prod *= n;
+            prod = prod % 1234567891;
+            if (prod < 0) prod += 1234567891;
         }
-        if (prod < 0) return prod + 1234567891;
-        else return prod;
+        return prod;
     }
 }
