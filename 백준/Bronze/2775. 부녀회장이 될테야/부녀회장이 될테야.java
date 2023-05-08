@@ -9,9 +9,7 @@ public class Main {
         int T = Integer.parseInt(br.readLine());
         int k, n;
         int[][] apartment = new int[14][14];
-        int answer;
         for (int i = 0; i < T; i++) {
-            answer = 0;
             k = Integer.parseInt(br.readLine());
             n = Integer.parseInt(br.readLine());
             for (int j = 0; j < k; j++) {
