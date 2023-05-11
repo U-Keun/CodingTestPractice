@@ -12,10 +12,9 @@ public class Main {
             tips.add(Integer.parseInt(br.readLine()));
         }
         Collections.sort(tips,Collections.reverseOrder());
-        int n = tips.size();
         long income = 0;
         int tip;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < N; i++) {
             tip = tips.get(i) - i;
             if (tip > 0) income += tip;
         }
