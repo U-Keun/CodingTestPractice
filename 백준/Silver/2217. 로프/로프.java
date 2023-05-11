@@ -13,10 +13,9 @@ public class Main {
         }
         Collections.sort(weights);
         int max = 0;
-        int n = weights.size();
         int capacity;
-        for (int i = 0; i < n; i++) {
-            capacity = weights.get(i) * (n - i);
+        for (int i = 0; i < N; i++) {
+            capacity = weights.get(i) * (N - i);
             if (capacity > max) max = capacity;
         }
         System.out.println(max);
