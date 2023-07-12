@@ -6,11 +6,12 @@ import java.util.*;
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static int N;
-    static int[] memo = new int[1000001];
+    static int[] memo;
     static List<Integer> hexNumbers = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         N = Integer.parseInt(br.readLine());
+        memo = new int[N + 1];
         for (int i = 1; i * (2 * i - 1) < N + 1; i++) {
             memo[i * (2 * i - 1)] = 1;
             hexNumbers.add(i * (2 * i - 1));
@@ -21,14 +22,9 @@ public class Main {
         System.out.println(memo[N]);
     }
     static void fillMemo(int k) {
-        if (memo[k] != 0) {
-            return;
+        memo[k] = Integer.MAX_VALUE;
+        for (int i = 0; i < hexNumbers.size() && hexNumbers.get(i) <= k; i++) {
+            memo[k] = Math.min(memo[k], 1 + memo[k - hexNumbers.get(i)]);
         }
-        int min = Integer.MAX_VALUE;
-        for (Integer i:hexNumbers) {
-            if (i > k) break;
-            min = Math.min(min, memo[i] + memo[k - i]);
-        }
-        memo[k] = min;
     }
 }
