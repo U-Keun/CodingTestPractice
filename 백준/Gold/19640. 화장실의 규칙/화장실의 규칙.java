@@ -6,8 +6,11 @@ import java.util.*;
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
-    static int N, M, K;
+    static int N, M, K, count = 0;
     static Queue<Employee>[] rows;
+    static Employee nextUser;
+    static PriorityQueue<Pair> pair;
+    static Pair tmp;
 
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
@@ -22,25 +25,21 @@ public class Main {
             if (rows[i % M] == null) rows[i % M] = new LinkedList<>();
             rows[i % M].add(new Employee(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), isDeka));
         }
-        int count = 0;
-        Employee nextUser;
-
-        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pair = new PriorityQueue<>();
         for (int i = 0; i < M; i++) {
             if (rows[i] != null && !rows[i].isEmpty()) {
-                pq.offer(new Pair(i, rows[i].peek()));
+                pair.offer(new Pair(i, rows[i].peek()));
             }
         }
-
-        while (!pq.isEmpty()) {
-            Pair pair = pq.poll();
-            nextUser = pair.employee;
-            int rowIdx = pair.rowIdx;
+        while (!pair.isEmpty()) {
+            tmp = pair.poll();
+            nextUser = tmp.employee;
+            int rowIdx = tmp.rowIdx;
             if (nextUser.isDeka) break;
 
             rows[rowIdx].poll();
             if (!rows[rowIdx].isEmpty()) {
-                pq.offer(new Pair(rowIdx, rows[rowIdx].peek()));
+                pair.offer(new Pair(rowIdx, rows[rowIdx].peek()));
             }
             count++;
         }
