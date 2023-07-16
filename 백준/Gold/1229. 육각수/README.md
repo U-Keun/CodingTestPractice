@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 18496 KB, 시간: 1284 ms
+메모리: 18328 KB, 시간: 992 ms
 
 ### 분류
 
@@ -14,7 +14,7 @@
 
 <p>육각수는 육각형을 이용해 정의할 수 있다. h<sub>n</sub>은 한 변에 점 1, 2, ..., n개가 있는 육각형을 점 하나만 겹치게 그렸을 때 존재하는 서로 다른 점의 개수이다.</p>
 
-<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/be790cb3-e1ff-4725-9de8-a265adca71f6/-/preview/" style="width: 320px; height: 109px;"></p>
+<p style="text-align: center;"><img alt="" src="" style="width: 320px; height: 109px;"></p>
 
 <p style="text-align: center;">그림 1</p>
 
