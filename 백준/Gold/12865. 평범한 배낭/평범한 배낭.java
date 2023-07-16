@@ -9,7 +9,6 @@ public class Main {
     static int N, K;
     static int[][] table, memo;
 
-
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
@@ -21,12 +20,11 @@ public class Main {
             table[i][0] = Integer.parseInt(st.nextToken());
             table[i][1] = Integer.parseInt(st.nextToken());
         }
-        for (int i = 0; i <= N; i++) {
+        for (int i = 1; i <= N; i++) {
             for (int j = 0; j <= K; j++) {
-                if (i == 0 || j == 0) memo[i][j] = 0;
-                else if (table[i - 1][0] <= j) {
-                    memo[i][j] = Math.max(table[i - 1][1] + memo[i - 1][j - table[i - 1][0]], memo[i - 1][j]);
-                } else memo[i][j] = memo[i - 1][j];
+                memo[i][j] = memo[i - 1][j];
+                if (table[i - 1][0] > j) continue;
+                memo[i][j] = Math.max(table[i - 1][1] + memo[i - 1][j - table[i - 1][0]], memo[i][j]);
             }
         }
         System.out.println(memo[N][K]);
