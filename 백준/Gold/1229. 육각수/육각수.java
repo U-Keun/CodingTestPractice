@@ -12,8 +12,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         N = Integer.parseInt(br.readLine());
         memo = new int[N + 1];
-        for (int i = 1; i < 6; i++) {
-            if (i < N) memo[i] = i;
+        for (int i = 1; i < N + 1; i++) {
+            if (i < 6) memo[i] = i;
+            else memo[i] = Integer.MAX_VALUE;
         }
         for (int i = 1; i * (2 * i - 1) < N + 1; i++) {
             memo[i * (2 * i - 1)] = 1;
@@ -25,8 +26,7 @@ public class Main {
     static void fillMemo(int k) {
         for (Integer i:hexNumbers) {
             for (int j = i + 1; j < k + 1; j++) {
-                if (memo[j] == 0) memo[j] = 1 + memo[j - i];
-                else memo[j] = Math.min(memo[j], 1 + memo[j - i]);
+                memo[j] = Math.min(memo[j], 1 + memo[j - i]);
             }
         }
     }
