@@ -19,7 +19,6 @@ public class Main {
         M = Integer.parseInt(br.readLine());
         memo = new int[N + 1];
         parcelStop = new boolean[N + 1];
-        parcelStop[1] = true;
         int a, b, c;
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
@@ -28,6 +27,7 @@ public class Main {
             c = Integer.parseInt(st.nextToken());
             reservation.add(new int[]{a, b, c});
         }
+        parcelStop[reservation.peek()[0]] = true;
         int[] tmp;
         int k;
         while (!reservation.isEmpty()) {
