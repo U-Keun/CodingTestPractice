@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         setInput();
-        search(new int[]{0, 0}, new int[]{0, 1});
+        search(0, 0, 0, 1);
         System.out.println(answer);
     }
     static void setInput() throws IOException {
@@ -24,51 +24,34 @@ public class Main {
             }
         }
     }
-    static void search(int[] init, int[] term) {
-        if (init[0] == term[0]) { // 가로로 놓여 있는 상태
-            if (term[1] == N - 1) {
-                if (term[0] == N - 1) answer++;
-                return;
+    static void search(int x1, int y1, int x2, int y2) {
+        if (x2 == N - 1 && y2 == N - 1) {
+            answer++;
+            return;
+        }
+        if (x1 == x2) { // 가로 상태.
+            if (y2 + 1 < N && house[x2][y2 + 1] == 0) {
+                search(x2, y2, x2, y2 + 1);
             }
-            if (term[1] + 1 < N && house[term[0]][term[1] + 1] == 0) { // 오른쪽으로 회전하지 않고 이동
-                search(term, new int[]{term[0], term[1] + 1});
+            if (x2 + 1 < N && y2 + 1 < N && house[x2 + 1][y2] == 0 && house[x2][y2 + 1] == 0 && house[x2 + 1][y2 + 1] == 0) {
+                search(x2, y2, x2 + 1, y2 + 1);
             }
-            if (term[0] + 1 < N
-                && house[term[0] + 1][term[1]] == 0
-                && house[term[0]][term[1] + 1] == 0
-                && house[term[0] + 1][term[1] + 1] == 0) { // 오른쪽 아래로 회전하며 이동
-                search(term, new int[]{term[0] + 1, term[1] + 1});
+        } else if (y1 == y2) { // 세로 상태.
+            if (x2 + 1 < N && house[x2 + 1][y2] == 0) {
+                search(x2, y2, x2 + 1, y2);
             }
-        } else if (init[1] == term[1]) { // 세로로 놓여 있는 상태
-            if (term[0] == N - 1) {
-                if (term[1] == N - 1) answer++;
-                return;
+            if (x2 + 1 < N && y2 + 1 < N && house[x2 + 1][y2] == 0 && house[x2][y2 + 1] == 0 && house[x2 + 1][y2 + 1] == 0) {
+                search(x2, y2, x2 + 1, y2 + 1);
             }
-            if (term[0] + 1 < N && house[term[0] + 1][term[1]] == 0) { // 아래로 회전하지 않고 이동
-                search(term, new int[]{term[0] + 1, term[1]});
+        } else { // 대각선 상태
+            if (y2 + 1 < N && house[x2][y2 + 1] == 0) {
+                search(x2, y2, x2, y2 + 1);
             }
-            if (term[1] + 1 < N
-                && house[term[0] + 1][term[1]] == 0
-                && house[term[0]][term[1] + 1] == 0
-                && house[term[0] + 1][term[1] + 1] == 0) { // 오른쪽 아래로 회전하며 이동
-                search(term, new int[]{term[0] + 1, term[1] + 1});
+            if (x2 + 1 < N && house[x2 + 1][y2] == 0) {
+                search(x2, y2, x2 + 1, y2);
             }
-        } else { // 대각선으로 놓여 있는 상태
-            if (term[0] == N - 1 && term[1] == N - 1) {
-                answer++;
-                return;
-            }
-            if (term[1] + 1 < N && house[term[0]][term[1] + 1] == 0) { // 파이프가 가로로 놓이도록 오른쪽으로 이동
-                search(term, new int[]{term[0], term[1] + 1});
-            }
-            if (term[0] + 1 < N && house[term[0] + 1][term[1]] == 0) { // 파이프가 세로로 놓이도록 아래로 이동
-                search(term, new int[]{term[0] + 1, term[1]});
-            }
-            if (term[0] + 1 < N && term[1] + 1 < N
-                && house[term[0] + 1][term[1]] == 0
-                && house[term[0]][term[1] + 1] == 0
-                && house[term[0] + 1][term[1] + 1] == 0) { // 파이프가 대각선으로 놓이도록 오른쪽 아래로 이동
-                search(term, new int[]{term[0] + 1, term[1] + 1});
+            if (x2 + 1 < N && y2 + 1 < N && house[x2 + 1][y2] == 0 && house[x2][y2 + 1] == 0 && house[x2 + 1][y2 + 1] == 0) {
+                search(x2, y2, x2 + 1, y2 + 1);
             }
         }
     }
