@@ -5,38 +5,35 @@ import java.util.ArrayList;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int N, p1 = 0, p2 = 1, answer = 0;
+    static int N, p1 = 0, p2 = 0, sum = 0, answer = 0;
     static ArrayList<Integer> primeNumbers = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         N = Integer.parseInt(br.readLine());
-        primeNumbers.add(0);
-        for (int i = 1; i <= N; i++) {
-            if (isPrime(i)) {
-                primeNumbers.add(primeNumbers.get(primeNumbers.size() - 1) + i);
+        sieve(N);
+        while (p2 <= primeNumbers.size()) {
+            if (p2 == primeNumbers.size()) {
+                if (p2 != 0 && (sum - primeNumbers.get(p1) == N || sum == N)) answer++;
+                break;
             }
-        }
-        while (p1 < p2 && p2 < primeNumbers.size()) {
-            if (primeNumbers.get(p2) - primeNumbers.get(p1) < N) {
-                p2++;
-            } else if (primeNumbers.get(p2) - primeNumbers.get(p1) > N) {
-                p1++;
-            } else {
-                p1++;
+            if (sum < N) sum += primeNumbers.get(p2++);
+            else if (sum > N) sum -= primeNumbers.get(p1++);
+            else {
+                sum -= primeNumbers.get(p1++);
                 answer++;
             }
         }
         System.out.println(answer);
     }
-    static boolean isPrime(int k) {
-        if (k == 1) return false;
-        boolean answer = true;
-        for (int i = 2; i * i <= k; i++) {
-            if (k % i == 0) {
-                answer = false;
-                break;
+    static void sieve(int n) { // Sieve of Eratosthenes
+        boolean[] isPrime = new boolean[n + 1];
+        for (int i = 2; i <= n; i++) {
+            if (!isPrime[i]) {
+                primeNumbers.add(i);
+                for (int j = i + i; j <= n; j += i) {
+                    isPrime[j] = true;
+                }
             }
         }
-        return answer;
     }
 }
