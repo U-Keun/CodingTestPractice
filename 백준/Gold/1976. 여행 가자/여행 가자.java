@@ -1,12 +1,14 @@
 import java.io.IOException;
 
 public class Main {
-    static int[] root;
+    static int[] root, rank;
     public static void main(String[] args) throws IOException {
         int N = readInt(), M = readInt();
         root = new int[N + 1];
+        rank = new int[N + 1];
         for (int i = 0; i < N; i++) {
             root[i + 1] = i + 1;
+            rank[i + 1] = 1;
             for (int j = 0; j < N; j++) {
                 int k = readInt();
                 if (i <= j) continue;
@@ -50,7 +52,12 @@ public class Main {
         x = find(x);
         y = find(y);
         if (x == y) return;
-        if (x < y) root[y] = x;
-        else root[x] = y;
+        if (rank[x] > rank[y]) {
+            root[y] = x;
+            rank[x] += rank[y];
+        } else {
+            root[x] = y;
+            rank[y] += rank[x];
+        }
     }
 }
