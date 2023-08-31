@@ -5,10 +5,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int N = readInt(), M = readInt();
         root = new int[N + 1];
-        for (int i = 1; i <= N; i++) {
-            root[i] = i;
-        }
         for (int i = 0; i < N; i++) {
+            root[i + 1] = i + 1;
             for (int j = 0; j < N; j++) {
                 int k = readInt();
                 if (i <= j) continue;
