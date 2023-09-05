@@ -3,17 +3,18 @@ import java.util.*;
 
 public class Main {
     static StringBuilder print = new StringBuilder();
+    static int M;
     static int[][] board = new int[9][9];
     static boolean[][] rowCheckSheet = new boolean[9][10],
             colCheckSheet = new boolean[9][10],
             boxCheckSheet = new boolean[9][10];
-    static Stack<Blank> blanks = new Stack<>();
+    static ArrayList<Blank> blanks = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 board[i][j] = readInt();
                 if (board[i][j] == 0) {
-                    blanks.push(new Blank(i, j));
+                    blanks.add(new Blank(i, j));
                 } else {
                     rowCheckSheet[i][board[i][j]] = true;
                     colCheckSheet[j][board[i][j]] = true;
@@ -21,7 +22,8 @@ public class Main {
                 }
             }
         }
-        recurrence();
+        M = blanks.size();
+        recurrence(0);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 print.append(board[i][j]).append(" ");
@@ -41,9 +43,9 @@ public class Main {
         } while ((c = System.in.read()) >= 48 && c <= 57);
         return val;
     }
-    public static boolean recurrence() {
-        if (blanks.isEmpty()) return true;
-        Blank tmp = blanks.pop();
+    public static boolean recurrence(int j) {
+        if (j == M) return true;
+        Blank tmp = blanks.get(j);
         for (int i = 1; i <= 9; i++) {
             if (rowCheckSheet[tmp.rowIdx][i]
                     || colCheckSheet[tmp.colIdx][i]
@@ -52,20 +54,28 @@ public class Main {
             colCheckSheet[tmp.colIdx][i] = true;
             boxCheckSheet[tmp.rowIdx / 3 * 3 + tmp.colIdx / 3][i] = true;
             board[tmp.rowIdx][tmp.colIdx] = i;
-            if (recurrence()) return true;
+            if (recurrence(j + 1)) return true;
             rowCheckSheet[tmp.rowIdx][i] = false;
             colCheckSheet[tmp.colIdx][i] = false;
             boxCheckSheet[tmp.rowIdx / 3 * 3 + tmp.colIdx / 3][i] = false;
             board[tmp.rowIdx][tmp.colIdx] = 0;
         }
-        blanks.push(tmp);
         return false;
     }
 }
-class Blank {
+class Blank implements Comparable<Blank> {
     int rowIdx, colIdx;
     public Blank(int rowIdx, int colIdx) {
         this.rowIdx = rowIdx;
         this.colIdx = colIdx;
+    }
+    @Override
+    public int compareTo(Blank other) {
+
+        return 0;
+    }
+    private int countCandidate(Blank blank) {
+
+        return 0;
     }
 }
