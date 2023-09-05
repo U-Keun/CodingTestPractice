@@ -1,18 +1,16 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Main {
     static StringBuilder print = new StringBuilder();
-    static int T, N;
+    static int T, N, answer;
     static ArrayList<Base> bases;
     static int[] parent;
     public static void main(String[] args) throws IOException {
         T = readInt();
         for (int i = 0; i < T; i++) {
             N = readInt();
+            answer = N;
             parent = new int[N + 1];
             bases = new ArrayList<>();
             for (int j = 1; j <= N; j++) {
@@ -21,16 +19,12 @@ public class Main {
                 Base tmp = new Base(x, y, R);
                 for (int k = 0; k < bases.size(); k++) {
                     if (distance(tmp, bases.get(k)) <= tmp.radius + bases.get(k).radius) {
-                        union(k + 1, j);
+                        if (union(k + 1, j)) answer--;
                     }
                 }
                 bases.add(tmp);
             }
-            Set<Integer> rep = new HashSet<>();
-            for (int j = 1; j <= N; j++) {
-                rep.add(find(parent[j]));
-            }
-            print.append(rep.size()).append('\n');
+            print.append(answer).append('\n');
         }
         System.out.println(print);
     }
@@ -49,14 +43,16 @@ public class Main {
         int xDiff = A.x - B.x, yDiff = A.y - B.y;
         return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
     }
-    public static void union(int x, int y) {
+    public static boolean union(int x, int y) {
         x = find(x);
         y = find(y);
+        if (x == y) return false;
         if (x > y) {
             parent[x] = y;
         } else {
             parent[y] = x;
         }
+        return true;
     }
     public static int find(int x) {
         if (parent[x] == x) return x;
