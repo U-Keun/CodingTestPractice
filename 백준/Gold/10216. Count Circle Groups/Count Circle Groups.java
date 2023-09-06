@@ -18,7 +18,10 @@ public class Main {
                 int x = readInt(), y = readInt(), R = readInt();
                 Base tmp = new Base(x, y, R);
                 for (int k = 0; k < bases.size(); k++) {
-                    if (distance(tmp, bases.get(k)) <= tmp.radius + bases.get(k).radius) {
+                    int xDiff = tmp.x - bases.get(k).x;
+                    int yDiff = tmp.y - bases.get(k).y;
+                    int r = tmp.radius + bases.get(k).radius;
+                    if (xDiff * xDiff + yDiff * yDiff <= r * r) {
                         if (union(k + 1, j)) answer--;
                     }
                 }
@@ -38,10 +41,6 @@ public class Main {
             val = 10 * val + c - 48;
         } while ((c = System.in.read()) >= 48 && c <= 57);
         return val;
-    }
-    public static double distance(Base A, Base B) {
-        int xDiff = A.x - B.x, yDiff = A.y - B.y;
-        return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
     }
     public static boolean union(int x, int y) {
         x = find(x);
