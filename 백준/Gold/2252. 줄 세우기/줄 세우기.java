@@ -1,14 +1,13 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Main {
+    static StringBuilder print = new StringBuilder();
+    static List<List<Integer>> graph = new ArrayList<>();
+    static Queue<Integer> queue = new LinkedList<>();
     public static void main(String[] args) throws IOException {
         int N = readInt(), M = readInt();
         int[] indegree = new int[N + 1];
-        List<List<Integer>> graph = new ArrayList<>();
         for (int i = 0; i < N; i++) {
             graph.add(new ArrayList<>());
         }
@@ -17,11 +16,9 @@ public class Main {
             graph.get(a - 1).add(b);
             indegree[b]++;
         }
-        Queue<Integer> queue = new LinkedList<>();
         for (int i = 1; i <= N; i++) {
             if (indegree[i] == 0) queue.add(i);
         }
-        StringBuilder print = new StringBuilder();
         while (!queue.isEmpty()) {
             int tmp = queue.poll();
             for (Integer i:graph.get(tmp - 1)) {
