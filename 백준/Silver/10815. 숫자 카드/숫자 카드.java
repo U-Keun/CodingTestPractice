@@ -16,23 +16,12 @@ public class Main {
         int M = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
         br.close();
+        StringBuilder print = new StringBuilder();
         for (int i = 0; i < M; i++) {
-            int left = 0, right = N - 1, pointer = (left + right) / 2,
-                k = Integer.parseInt(st.nextToken());
-            while (left < right) {
-                if (k < numbers[pointer]) {
-                    right = pointer - 1;
-                } else if (k > numbers[pointer]) {
-                    left = pointer + 1;
-                } else {
-                    left = pointer;
-                    break;
-                }
-                pointer = (left + right) / 2;
-            }
-            if (k == numbers[left]) bw.write(1 + " ");
-            else bw.write(0 + " ");
+            int k = Integer.parseInt(st.nextToken());
+            print.append((Arrays.binarySearch(numbers, k) >= 0 ? "1 ":"0 "));
         }
+        bw.write(print.toString());
         bw.flush();
         bw.close();
     }
