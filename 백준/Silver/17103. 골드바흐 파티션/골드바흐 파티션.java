@@ -5,15 +5,21 @@ public class Main {
     static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(br.readLine());
+        boolean[] isPrime = new boolean[1000001];
+        for (int i = 2; i < 1000001; i++) {
+            if (!isPrime[i]) {
+                for (int j = i + i; j < 1000001; j += i) {
+                    isPrime[j] = true;
+                }
+            }
+        }
         for (int i = 0; i < T; i++) {
             int N = Integer.parseInt(br.readLine()), count = 0;
             if (N == 4) {
                 bw.write(1 + "\n");
                 continue;
             }
-            boolean[] isPrime = new boolean[N + 1];
-            sieve(isPrime);
-            for (int j = 3; j + j <= N; j++) {
+            for (int j = 3; j + j <= N; j += 2) {
                 if (!isPrime[j] && !isPrime[N - j]) count++;
             }
             bw.write(count + "\n");
