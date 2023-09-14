@@ -11,23 +11,20 @@ public class Main {
         for (int i = 0; i < N; i++) {
             if (st.nextToken().equals("0")) check[i] = true;
         }
-        Stack<Integer> stack = new Stack<>();
-        Queue<Integer> queue = new LinkedList<>();
+        Deque<Integer> deque = new LinkedList<>();
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
             int k = Integer.parseInt(st.nextToken());
-            if (check[i]) stack.push(k);
+            if (check[i]) deque.addFirst(k);
         }
-        while (!stack.isEmpty()) queue.add(stack.pop());
         int M = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
         br.close();
         for (int i = 0; i < M; i++) {
-            queue.add(Integer.parseInt(st.nextToken()));
-            bw.write(queue.poll() + " ");
+            deque.addLast(Integer.parseInt(st.nextToken()));
+            bw.write(deque.pollFirst() + " ");
         }
         bw.flush();
         bw.close();
     }
-
 }
