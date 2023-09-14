@@ -1,5 +1,4 @@
 import java.io.*;
-import java.math.BigInteger;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -11,13 +10,13 @@ public class Main {
         StringBuilder print = new StringBuilder();
         for (int i = 0; i < T; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken()), b = Integer.parseInt(st.nextToken());
-            BigInteger den = BigInteger.ONE, answer = BigInteger.ONE;
-            for (int j = 0; j < a; j++) {
-                answer = answer.multiply(BigInteger.valueOf(b - j));
-                den = den.multiply(BigInteger.valueOf(a - j));
+            int a = Integer.parseInt(st.nextToken()), b = Integer.parseInt(st.nextToken()), k = Math.min(a, b - a);
+            long den = 1, answer = 1;
+            for (int j = 0; j < k; j++) {
+                answer *= b - j;
+                den *= k - j;
             }
-            answer = answer.divide(den);
+            answer /= den;
             print.append(answer).append('\n');
         }
         br.close();
