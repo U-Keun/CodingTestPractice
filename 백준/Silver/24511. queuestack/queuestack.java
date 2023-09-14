@@ -20,10 +20,12 @@ public class Main {
         int M = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
         br.close();
+        StringBuilder print = new StringBuilder();
         for (int i = 0; i < M; i++) {
             deque.addLast(Integer.parseInt(st.nextToken()));
-            bw.write(deque.pollFirst() + " ");
+            print.append(deque.pollFirst()).append(" ");
         }
+        bw.write(print.toString());
         bw.flush();
         bw.close();
     }
