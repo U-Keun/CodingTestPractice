@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
@@ -10,19 +11,21 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
         br.close();
-        int[] input = new int[N];
+        int[] input = new int[N], sequence = new int[N];
         for (int i = 0; i < N; i++) input[i] = Integer.parseInt(st.nextToken());
-        ArrayList<Integer> sequence = new ArrayList<>();
-        sequence.add(input[0]);
+        Arrays.fill(sequence, Integer.MAX_VALUE);
+        sequence[0] = input[0];
         for (int i = 1; i < N; i++) {
-            if (input[i] > sequence.get(sequence.size() - 1)) sequence.add(input[i]);
-            else {
-                int idx = Collections.binarySearch(sequence, input[i]);
-                if (idx >= 0) sequence.set(idx, input[i]);
-                else sequence.set(- idx - 1, input[i]);
-            }
+            int idx = Arrays.binarySearch(sequence, input[i]);
+            if (idx >= 0) sequence[idx] = input[i];
+            else sequence[- idx - 1] = input[i];
         }
-        bw.write(String.valueOf(sequence.size()));
+        int answer = 0;
+        for (int k:sequence) {
+            if (k == Integer.MAX_VALUE) break;
+            answer++;
+        }
+        bw.write(String.valueOf(answer));
         bw.flush();
         bw.close();
     }
