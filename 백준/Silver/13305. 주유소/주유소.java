@@ -19,9 +19,9 @@ public class Main {
                 }
                 cost[i] = Math.min(cost[i - 1], value);
             }
-            int total = 0;
+            long total = 0;
             for (int i = 0; i < N - 1; i++) {
-                total += distance[i] * cost[i];
+                total += (long) distance[i] * cost[i];
             }
             bw.write(String.valueOf(total));
             bw.flush();
