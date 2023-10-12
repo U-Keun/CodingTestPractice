@@ -23,16 +23,18 @@ public class Main {
             return "0";
         }
         StringBuilder sb = new StringBuilder();
+        sb.append("(");
         for (int k = 0; k < 4; k++) {
             sb.append(recurrence(N / 2, i + (N / 2) * (k / 2), j + (N / 2) * (k % 2)));
         }
         boolean isOne = true, isZero = true;
-        for (int k = 0; k < sb.length(); k++) {
+        for (int k = 1; k < sb.length(); k++) {
             if (sb.charAt(k) == '1') isZero = false;
             else isOne = false;
         }
         if (isOne) return "1";
         else if (isZero) return "0";
-        return "(" + sb + ")";
+        sb.append(")");
+        return sb.toString();
     }
 }
