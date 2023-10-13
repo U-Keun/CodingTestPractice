@@ -22,7 +22,7 @@ public class Main {
     }
     private static int[] recurrence(int N, int rowIdx, int colIdx) {
         int[] answer = new int[3];
-        if (N == 1) {
+        if (N == 1 || check(N, rowIdx, colIdx)) {
             switch (matrix[rowIdx][colIdx]) {
                 case -1: answer[0]++; break;
                 case 0: answer[1]++; break;
@@ -40,5 +40,14 @@ public class Main {
         if (answer[0] == 0 && answer[2] == 0) return new int[]{0, 1, 0};
         if (answer[1] == 0 && answer[2] == 0) return new int[]{1, 0, 0};
         return answer;
+    }
+    private static boolean check(int N, int rowIdx, int colIdx) {
+        int stat = matrix[rowIdx][colIdx];
+        for (int i = rowIdx; i < rowIdx + N; i++) {
+            for (int j = colIdx; j < colIdx + N; j++) {
+                if (matrix[i][j] != stat) return false;
+            }
+        }
+        return true;
     }
 }
