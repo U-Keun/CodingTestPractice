@@ -5,7 +5,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) {
-            StringBuilder print = new StringBuilder();
             int n = Integer.parseInt(br.readLine());
             int[] histogram = new int[n];
             for (int i = 0; i < n; i++) {
@@ -39,8 +38,7 @@ public class Main {
             for (int i = 0; i < n; i++) {
                 max = Math.max(max, (long) histogram[i] * (right[i] - left[i]));
             }
-            print.append(max).append('\n');
-            bw.write(print.toString());
+            bw.write(String.valueOf(max));
             bw.flush();
         }
     }
