@@ -13,10 +13,8 @@ public class Main {
             Stack<Integer> stack = new Stack<>();
             int[] left = new int[n];
             for (int i = 0; i < n; i++) {
-                int idx = i;
                 while (!stack.isEmpty() && histogram[stack.peek()] >= histogram[i]) {
                     stack.pop();
-                    idx = left[idx];
                 }
                 if (stack.isEmpty()) left[i] = 0;
                 else left[i] = stack.peek() + 1;
@@ -25,10 +23,8 @@ public class Main {
             stack.clear();
             int[] right = new int[n];
             for (int i = n - 1; i >= 0; i--) {
-                int idx = i;
                 while (!stack.isEmpty() && histogram[stack.peek()] >= histogram[i]) {
                     stack.pop();
-                    idx = right[idx];
                 }
                 if (stack.isEmpty()) right[i] = n;
                 else right[i] = stack.peek();
