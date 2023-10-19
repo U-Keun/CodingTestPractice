@@ -23,15 +23,12 @@ public class Main {
         }
     }
     private static int countHouses(List<Integer> houses, int distance) {
-        int pointer1 = 0, pointer2 = 0, answer = 1, n = houses.size();
-        while (pointer2 < n) {
-            if (houses.get(pointer2) - houses.get(pointer1) < distance) {
-                pointer2++;
-                continue;
+        int pointer = 0, answer = 1, n = houses.size();
+        for (int i = 0; i < n; i++) {
+            if (houses.get(i) - houses.get(pointer) >= distance) {
+                pointer = i;
+                answer++;
             }
-            pointer1 = pointer2;
-            pointer2++;
-            answer++;
         }
         return answer;
     }
