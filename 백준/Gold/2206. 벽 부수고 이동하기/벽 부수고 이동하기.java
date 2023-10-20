@@ -13,6 +13,7 @@ public class Main {
             this.canSmash = canSmash;
         }
     }
+
     public static void main(String[] args) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) {
@@ -20,10 +21,7 @@ public class Main {
             int N = Integer.parseInt(input[0]), M = Integer.parseInt(input[1]);
             char[][] map = new char[N][M];
             for (int i = 0; i < N; i++) {
-                String row = br.readLine();
-                for (int j = 0; j < M; j++) {
-                    map[i][j] = row.charAt(j);
-                }
+                map[i] = br.readLine().toCharArray();
             }
             boolean[][][] visited = new boolean[N][M][2];
             Queue<Person> queue = new LinkedList<>();
@@ -34,16 +32,18 @@ public class Main {
                 Person tmp = queue.poll();
                 if (tmp.rowIdx == N - 1 && tmp.colIdx == M - 1) {
                     bw.write(String.valueOf(tmp.length));
-                    break;
+                    bw.flush();
+                    return;
                 }
-                for (int[] i:diff) {
+                for (int[] i : diff) {
                     int newRowIdx = tmp.rowIdx + i[0], newColIdx = tmp.colIdx + i[1];
-                    if (newRowIdx >= 0 && newRowIdx < N
-                        && newColIdx >= 0 && newColIdx < M) {
+                    if (newRowIdx >= 0 && newRowIdx < N && newColIdx >= 0 && newColIdx < M
+                            && (!visited[newRowIdx][newColIdx][0] || !visited[newRowIdx][newColIdx][1])) {
                         if (tmp.canSmash) {
                             if (!visited[newRowIdx][newColIdx][0]) {
                                 visited[newRowIdx][newColIdx][0] = true;
-                                if (map[newRowIdx][newColIdx] == '1') queue.offer(new Person(newRowIdx, newColIdx, tmp.length + 1, false));
+                                if (map[newRowIdx][newColIdx] == '1')
+                                    queue.offer(new Person(newRowIdx, newColIdx, tmp.length + 1, false));
                                 else queue.offer(new Person(newRowIdx, newColIdx, tmp.length + 1, true));
                             }
                         } else {
@@ -55,7 +55,7 @@ public class Main {
                     }
                 }
             }
-            if (!visited[N - 1][M - 1][0] && !visited[N - 1][M - 1][1]) bw.write(String.valueOf(-1));
+            bw.write(String.valueOf(-1));
             bw.flush();
         }
     }
