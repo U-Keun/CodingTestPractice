@@ -1,37 +1,43 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out))) {
-            int N = Integer.parseInt(br.readLine());
-            List<Integer> counts = new ArrayList<>();
-            char[] input = br.readLine().toCharArray();
-            char prev = input[0];
-            int count = 1;
-            for (int i = 1; i < N; i++) {
-                if (prev == input[i]) {
-                    count++;
-                } else {
-                    counts.add(count);
-                    count = 1;
-                    prev = input[i];
-                }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        char[] input = br.readLine().toCharArray();
+        char prev = input[0];
+        int count = 1;
+        List<Integer> counts = new ArrayList<>();
+        for (int i = 1; i < N; i++) {
+            if (prev == input[i]) {
+                count++;
+            } else {
+                counts.add(count);
+                count = 1;
+                prev = input[i];
             }
-            int odd = 0, even = 0;
-            for (int i = 0; i < counts.size(); i++) {
-                if (i % 2 == 0) {
-                    odd += counts.get(i);
-                } else even += counts.get(i);
-            }
-            bw.write(String.valueOf(Math.min(odd, even)));
-            bw.flush();
         }
+        counts.add(count);
+        int l = counts.size();
+        int a = 0, b = 0;
+        for (int i = 0; i < l - 1; i++) {
+            if (i % 2 == 0) {
+                a += counts.get(i);
+            } else b += counts.get(i);
+        }
+        int left = Math.min(a, b);
+        a = 0;
+        b = 0;
+        for (int i = 1; i < l; i++) {
+            if (i % 2 == 0) {
+                a += counts.get(i);
+            } else b += counts.get(i);
+        }
+        int right = Math.min(a, b);
+        System.out.println(Math.min(left, right));
     }
 }
