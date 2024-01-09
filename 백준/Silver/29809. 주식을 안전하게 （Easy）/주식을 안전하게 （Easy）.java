@@ -22,13 +22,10 @@ public class Main {
             
             for (int i = 1; i < p; i++) {
                 record[i] = deposit[i] - deposit[i - 1];
-//                Dp -= modPow(c, p - i) * record[i];
-//                if (Dp >= 0) Dp %= MOD;
-//                else Dp = - ((- Dp) % MOD);
             }
             long Dp = 0;
             for (int i = 1; i < p; i++) {
-                Dp += -modPow(c, i) * record[p - i];
+                Dp -= modPow(c, i) * record[p - i];
                 if (Dp >= 0) Dp %= MOD;
                 else Dp = - (- Dp % MOD);
             }
