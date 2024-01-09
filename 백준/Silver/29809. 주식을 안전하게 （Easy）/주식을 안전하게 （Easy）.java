@@ -19,18 +19,20 @@ public class Main {
                 deposit[i] = Long.parseLong(secondRow[i]);
             }
             long[] record = new long[p + 1];
-            
+
             for (int i = 1; i < p; i++) {
                 record[i] = deposit[i] - deposit[i - 1];
             }
-            long Dp = 0;
+            long Dp = 0, cp = c;
             for (int i = 1; i < p; i++) {
-                Dp -= modPow(c, i) * record[p - i];
+                Dp -= cp * record[p - i];
                 if (Dp >= 0) Dp %= MOD;
                 else Dp = - (- Dp % MOD);
+                cp *= c;
+                cp %= MOD;
             }
             record[p] = Dp;
-            long answer = Math.abs(record[(k - 1) % p + 1]), cp = modPow(c, p);
+            long answer = Math.abs(record[(k - 1) % p + 1]);
             while (k > p) {
                 answer *= cp;
                 answer %= MOD;
@@ -39,17 +41,5 @@ public class Main {
             bw.write(String.valueOf(answer));
             bw.flush();
         }
-    }
-    private static long modPow(long base, long exp) {
-        long result = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if ((exp & 1) == 1) {
-                result = (result * base) % MOD;
-            }
-            base = (base * base) % MOD;
-            exp >>= 1;
-        }
-        return result;
     }
 }
