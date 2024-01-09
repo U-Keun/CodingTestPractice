@@ -1,19 +1,24 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Main {
-    static final long MOD = 1000000007;
+    static final long MOD = 1_000_000_007;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
-
-        int p = sc.nextInt();
-        long c = sc.nextLong();
-        int k = sc.nextInt();
+        String[] firstRow = br.readLine().split(" ");
+        int p = Integer.parseInt(firstRow[0]);
+        long c = Long.parseLong(firstRow[1]);
+        int k = Integer.parseInt(firstRow[2]);
 
         long[] m = new long[p];
-
+        String[] secondRow = br.readLine().split(" ");
+        br.close();
         for (int i = 0; i < p; i++) {
-            m[i] = sc.nextLong();
+            m[i] = Long.parseLong(secondRow[i]);
         }
 
         long[] d = new long[p + 1];
