@@ -32,6 +32,7 @@ public class Main {
                 WeightedVertex tmp = queue.poll();
                 if (tmp.row == N - 1 && tmp.col == N - 1) break;
                 visited[tmp.row][tmp.col] = true;
+                if (distances[tmp.row][tmp.col] < tmp.weight) continue;
                 for (int[] direction : directions) {
                     int newRowIndex = tmp.row + direction[0], newColIndex = tmp.col + direction[1];
                     if (newRowIndex >= 0 && newRowIndex < N
