@@ -15,44 +15,35 @@ public class Main {
             if (i < n / 2) left[i] = readInt();
             else right[i - n / 2] = readInt();
         }
-        leftCases(left, 0, 0);
-        rightCases(right, 0, 0);
+        computeCases(leftHalf, left, 0, 0);
+        computeCases(rightHalf, right, 0, 0);
+
         Collections.sort(rightHalf);
 
         long count = 0;
         for (Long number : leftHalf) {
             long target = c - number;
-            int index = binarySearch(rightHalf, target);
+            int index = binarySearch(target);
             if (index >= 0) count += index;
             else count += index;
         }
         System.out.println(count);
     }
-    private static void leftCases(long[] left, long current, int index) {
-        if (index == left.length) {
+    private static void computeCases(List<Long> list, long[] array, long current, int index) {
+        if (index == array.length) {
             if (current <= c) {
-                leftHalf.add(current);
+                list.add(current);
             }
             return;
         }
-        leftCases(left, current, index + 1);
-        leftCases(left, current + left[index], index + 1);
+        computeCases(list, array, current, index + 1);
+        computeCases(list, array, current + array[index], index + 1);
     }
-    private static void rightCases(long[] right, long current, int index) {
-        if (index == right.length) {
-            if (current <= c) {
-                rightHalf.add(current);
-            }
-            return;
-        }
-        rightCases(right, current, index + 1);
-        rightCases(right, current + right[index], index + 1);
-    }
-    private static int binarySearch(List<Long> list, long key) {
-        int low = 0, high = list.size();
+    private static int binarySearch(long key) {
+        int low = 0, high = Main.rightHalf.size();
         while (low < high) {
             int mid = (low + high) >>> 1;
-            if (list.get(mid) <= key) low = mid + 1;
+            if (Main.rightHalf.get(mid) <= key) low = mid + 1;
             else high = mid;
         }
         return low;
