@@ -6,20 +6,24 @@ public class Main {
         StringBuilder print = new StringBuilder();
         for (int i = 0; i < T; i++) {
             int K = readInt();
-            int[] files = new int[K];
-            int[] prefixSum = new int[K + 1];
+            int[] files = new int[K], prefixSum = new int[K + 1];
+            int[][] opt = new int[K][K];
             for (int j = 0; j < K; j++) {
                 files[j] = readInt();
                 prefixSum[j + 1] = prefixSum[j] + files[j];
+                opt[j][j] = j;
             }
             int[][] dp = new int[K][K];
             for (int j = 1; j < K; j++) {
-                for (int k = 1; k < K - j + 1; k++) {
+                for (int k = j; k < K; k++) {
                     int value = Integer.MAX_VALUE;
-                    for (int l = 1; l <= j; l++) {
-                        value = Math.min(value, dp[k + j - l][k + j - 1] + dp[k - 1][k + j - l - 1]);
+                    for (int l = opt[k - j][k - 1]; l <= Math.min(k - 1, opt[k - j + 1][k]); l++) {
+                        if (value >= dp[k - j][l] + dp[l + 1][k]) {
+                            opt[k - j][k] = l;
+                            value = dp[k - j][l] + dp[l + 1][k];
+                        }
                     }
-                    dp[k - 1][k + j - 1] = value + prefixSum[k + j] - prefixSum[k - 1];
+                    dp[k - j][k] = value + prefixSum[k + 1] - prefixSum[k - j];
                 }
             }
             print.append(dp[0][K - 1]).append("\n");
