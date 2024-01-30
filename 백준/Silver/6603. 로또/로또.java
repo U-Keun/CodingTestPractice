@@ -30,9 +30,9 @@ public class Main {
             return;
         }
         if (index == k) return;
-        List<Integer> updated = new ArrayList<>(candidate);
-        updated.add(numbers[index]);
-        backtracking(index + 1, updated);
+        candidate.add(numbers[index]);
+        backtracking(index + 1, candidate);
+        candidate.remove(candidate.size() - 1);
         backtracking(index + 1, candidate);
     }
 }
