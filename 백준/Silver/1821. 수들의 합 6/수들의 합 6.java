@@ -1,13 +1,17 @@
+import static java.util.Collections.swap;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
     private static int N, F;
-    private static int[] permutation;
+    private static List<Integer> permutation;
     private static Queue<Integer> pascalCoefficients = new LinkedList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,17 +19,13 @@ public class Main {
         br.close();
         N = Integer.parseInt(st.nextToken());
         F = Integer.parseInt(st.nextToken());
-        permutation = new int[N];
+        permutation = new ArrayList<>();
         for (int i = 0; i < N; i++) {
-            permutation[i] = i + 1;
+            permutation.add(i + 1);
             updateCoefficients();
         }
         do {
-            int value = 0;
-            for (int i = 0; i < N; i++) {
-                value += permutation[i] * pascalCoefficients.peek();
-                pascalCoefficients.add(pascalCoefficients.poll());
-            }
+            int value = sumValues();
             if (value == F) {
                 printResult(permutation);
                 return;
@@ -33,7 +33,7 @@ public class Main {
         } while (hasNextPermutation());
 
     }
-    private static void printResult(int[] permutation) {
+    private static void printResult(List<Integer> permutation) {
         StringBuilder print = new StringBuilder();
         for (int number : permutation) {
             print.append(number).append(" ");
@@ -51,25 +51,26 @@ public class Main {
     }
     private static boolean hasNextPermutation() {
         int i = N - 1;
-        while (i > 0 && permutation[i] <= permutation[i - 1]) i--;
+        while (i > 0 && permutation.get(i) <= permutation.get(i - 1)) i--;
         if (i == 0) return false;
 
         int j = N - 1;
-        while (permutation[i - 1] >= permutation[j]) j--;
+        while (permutation.get(i - 1) >= permutation.get(j)) j--;
+        swap(permutation, i - 1, j);
 
-        int temp = permutation[j];
-        permutation[j] = permutation[i-1];
-        permutation[i-1] = temp;
-
-        j = permutation.length-1;
-        while(i<j) {
-            temp = permutation[j];
-            permutation[j] = permutation[i];
-            permutation[i] = temp;
-            i++;
-            j--;
+        j = N -1;
+        while(i < j) {
+            swap(permutation, i++, j--);
         }
 
         return true;
+    }
+    private static int sumValues() {
+        int value = 0;
+        for (int i = 0; i < N; i++) {
+            value += permutation.get(i) * pascalCoefficients.peek();
+            pascalCoefficients.add(pascalCoefficients.poll());
+        }
+        return value;
     }
 }
