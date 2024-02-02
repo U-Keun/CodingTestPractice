@@ -27,20 +27,17 @@ public class Main {
         System.out.println(print);
     }
     private static int readInt() throws IOException {
-        int val = 0;
-        int c = System.in.read();
-        while (c <= ' ') {
-            c = System.in.read();
-        }
-        boolean minus = false;
+        int c, n;
+        boolean isNegative = false;
+        c = System.in.read();
         if (c == '-') {
-            minus = true;
+            isNegative = true;
             c = System.in.read();
         }
-        do {
-            val = 10 * val + c - 48;
-        } while ((c = System.in.read()) >= 48 && c <= 57);
-        if (minus) return -val;
-        return val;
+        n = c & 15;
+        while ((c = System.in.read()) > 32) {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+        return isNegative ? -n : n;
     }
 }
