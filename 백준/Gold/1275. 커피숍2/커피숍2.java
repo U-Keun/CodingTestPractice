@@ -20,17 +20,19 @@ public class Main {
             numbers[i] = Long.parseLong(st.nextToken());
             update(i, numbers[i]);
         }
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder print = new StringBuilder();
         for (int i = 0; i < Q; i++) {
             st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken()), y = Integer.parseInt(st.nextToken());
             int left = Math.min(x, y), right = Math.max(x, y);
-            bw.write(getPrefixSum(right) - getPrefixSum(left - 1) + "\n");
+            print.append(getPrefixSum(left, right)).append("\n");
             int a = Integer.parseInt(st.nextToken()), b = Integer.parseInt(st.nextToken());
             update(a, b - numbers[a]);
             numbers[a] = b;
         }
         br.close();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        bw.write(print.toString());
         bw.flush();
         bw.close();
     }
@@ -40,7 +42,10 @@ public class Main {
             index += (index & -index);
         }
     }
-    private static long getPrefixSum(int index) {
+    private static long getPrefixSum(int left, int right) {
+       return sum(right) - sum(left - 1);
+    }
+    private static long sum(int index) {
         long answer = 0;
         while (index > 0) {
             answer += tree[index];
