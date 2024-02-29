@@ -31,9 +31,10 @@ public class Main {
             return;
         }
         for (int i = 0; i < N; i++) {
-            if ((visited | (1 << i)) == visited || W[current][i] == 0) continue;
-            if (dp[current][visited] + W[current][i] < dp[i][visited | (1 << i)]) {
-                dp[i][visited | (1 << i)] = dp[current][visited] + W[current][i];
+            int tmp = visited | (1 << i);
+            if (tmp == visited || W[current][i] == 0) continue;
+            if (dp[current][visited] + W[current][i] < dp[i][tmp]) {
+                dp[i][tmp] = dp[current][visited] + W[current][i];
                 dfs(i, visited | (1 << i));
             }
         }
