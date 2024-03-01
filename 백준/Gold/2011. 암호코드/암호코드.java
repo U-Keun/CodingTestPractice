@@ -11,29 +11,23 @@ public class Main {
         int[] numbers = input.chars()
                 .map(c -> c - '0')
                 .toArray();
-        long[] dp = new long[n];
-        for (int i = n - 1; i >= 0; i--) {
-            if (numbers[i] == 0) {
-                if (i >= 1 && numbers[i - 1] <= 2) {
-                    dp[i] = 0;
-                    continue;
-                }
-                System.out.println(0);
-                return;
-            } else {
-                if (i == n - 1 || (i == n - 2 && numbers[i + 1] == 0)) {
-                    dp[i] = 1;
-                } else if (i == n - 2 && numbers[i] * 10 + numbers[i + 1] <= 26) {
-                    dp[i] = 2;
-                } else {
-                    dp[i] += dp[i + 1];
-                    if (i + 2 < n && numbers[i] * 10 + numbers[i + 1] <= 26) {
-                        dp[i] += dp[i + 2];
-                    }
-                    dp[i] %= 1000000;
-                }
-            }
+        if (n == 0 || numbers[0] == 0) {
+            System.out.println(0);
+            return;
         }
-        System.out.println(dp[0]);
+        long prev = 1, curr = 1;
+        for (int i = 1; i < n; i++) {
+            long temp = 0;
+            if (numbers[i] != 0) {
+                temp += curr;
+            }
+            int twoDigit = numbers[i - 1] * 10 + numbers[i];
+            if (twoDigit >= 10 && twoDigit <= 26) {
+                temp += prev;
+            }
+            prev = curr;
+            curr = temp % 1000000;
+        }
+        System.out.println(curr);
     }
 }
