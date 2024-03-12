@@ -8,6 +8,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         StringTokenizer L = new StringTokenizer(br.readLine()), J = new StringTokenizer(br.readLine());
+        br.close();
         int[] dp = new int[101];
         for (int i = 0; i < N; i++) {
             int l = Integer.parseInt(L.nextToken()), j = Integer.parseInt(J.nextToken());
