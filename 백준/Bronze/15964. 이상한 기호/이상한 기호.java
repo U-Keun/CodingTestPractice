@@ -7,6 +7,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] input = br.readLine().split(" ");
         int N = Integer.parseInt(input[0]), M = Integer.parseInt(input[1]);
-        System.out.println((N + M) * (N - M));
+        long answer = (long) (N + M) * (N - M);
+        System.out.println(answer);
     }
 }
