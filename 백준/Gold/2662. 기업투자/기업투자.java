@@ -20,9 +20,9 @@ public class Main {
         }
         int[][] dp = new int[M + 1][N + 1];
         int[][] record = new int[M + 1][N + 1];
-        for (int i = 1; i <= M; i++) {
-            for (int j = 1; j <= N; j++) {
-                for (int k = 0; k <= j; k++) {
+        for (int i = 1; i <= M; i++) { // 20
+            for (int j = 1; j <= N; j++) { // 6000
+                for (int k = 0; k <= j; k++) { // 180000
                     int profit = dp[i - 1][j - k] + investTable[i][k];
                     if (profit > dp[i][j]) {
                         dp[i][j] = profit;
@@ -31,15 +31,15 @@ public class Main {
                 }
             }
         }
+
+        Deque<Integer> stack = new ArrayDeque<>();
+        int company = M, amount = N;
+        for (int i = M; i > 0; i--) {
+            stack.push(record[company][amount]);
+            amount -= record[company--][amount];
+        }
         StringBuilder print = new StringBuilder();
         print.append(dp[M][N]).append("\n");
-        
-        Deque<Integer> stack = new ArrayDeque<>();
-        for (int i = M; i > 0; i--) {
-            stack.push(record[i][N]);
-            N -= record[i][N];
-        }
-
         while (!stack.isEmpty()) {
             print.append(stack.pop()).append(" ");
         }
