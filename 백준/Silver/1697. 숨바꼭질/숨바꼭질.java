@@ -1,32 +1,49 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.StringTokenizer;
 
 public class Main {
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-    static int N, K, time = 0, l, m;
-    static Queue<Integer> location = new LinkedList<>();
-    static boolean[] visited = new boolean[100001];
-
     public static void main(String[] args) throws IOException {
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
-        location.add(N);
-        Loop : while (true) {
-            l = location.size();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        br.close();
+        int N = Integer.parseInt(st.nextToken()),
+            K = Integer.parseInt(st.nextToken());
+
+        boolean[] visited = new boolean[100001];
+        visited[N] = true;
+
+        Deque<Integer> queue = new ArrayDeque<>();
+        queue.addLast(N);
+        int time = 0;
+        while (!queue.isEmpty()) {
+            if (visited[K]) break;
+
+            int l = queue.size();
             for (int i = 0; i < l; i++) {
-                m = location.poll();
-                visited[m] = true;
-                if (m == K) break Loop;
-                if (m - 1 >= 0 && !visited[m - 1]) location.add(m - 1);
-                if (m + 1 <= 100000 && !visited[m + 1]) location.add(m + 1);
-                if (2 * m <= 100000 && !visited[2 * m]) location.add(2 * m);
+                int tmp = queue.pollFirst();
+                if (tmp > 0 && !visited[tmp - 1]) {
+                    visited[tmp - 1] = true;
+                    queue.addLast(tmp - 1);
+                }
+
+                if (tmp < 100000 && !visited[tmp + 1]) {
+                    visited[tmp + 1] = true;
+                    queue.addLast(tmp + 1);
+                }
+
+                if (tmp * 2 <= 100000 && !visited[tmp * 2]) {
+                    visited[tmp * 2] = true;
+                    queue.addLast(tmp * 2);
+                }
             }
+
             time++;
         }
+
         System.out.println(time);
     }
 }
