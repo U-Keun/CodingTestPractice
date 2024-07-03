@@ -16,24 +16,24 @@ int main() {
     
     int applicants[6];
     
-    for (int i = 0; i < 6; i++) {
-        cin >> applicants[i];
+    for (int &applicants : applicants) {
+        cin >> applicants;
     }
     
-    int shirtsAndPens[2];
-    cin >> shirtsAndPens[0];
-    cin >> shirtsAndPens[1];
+    int shirts, pens;
+    cin >> shirts >> pens;
     
-    int shirts = 0;
     
-    for (int i = 0; i < 6; i++) {
-        shirts += applicants[i] / shirtsAndPens[0];
-        if (applicants[i] % shirtsAndPens[0] != 0) {
-            shirts++;
+    int answer = 0;
+    for (int applicant : applicants) {
+        answer += applicant / shirts;
+        if (applicant % shirts != 0) {
+            answer++;
         }
     }
     
-    cout << shirts << endl;
-    cout << N / shirtsAndPens[1] << " " << N % shirtsAndPens[1] << endl;
+    cout << answer << endl;
+    cout << N / pens << " " << N % pens << endl;
     
+    return 0;
 }
