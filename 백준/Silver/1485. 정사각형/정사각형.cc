@@ -4,13 +4,6 @@
 
 using namespace std;
 
-bool compare(const pair<int, int>& a, const pair<int, int>& b) {
-    if (a.second == b.second) {
-        return a.first < b.first;
-    }
-    return a.second < b.second;
-}
-
 int main()
 {
     ios_base::sync_with_stdio(false);
@@ -26,7 +19,7 @@ int main()
             points.push_back({x, y});
         }
 
-        sort(points.begin(), points.end(), compare);
+        sort(points.begin(), points.end());
 
         int c1x = (points[0].first + points[3].first);
         int c1y = (points[0].second + points[3].second);
