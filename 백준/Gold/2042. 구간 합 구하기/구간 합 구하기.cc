@@ -8,6 +8,7 @@ using namespace std;
 
 class SegmentTree {
     vector<ll> tree;
+    vector<ll> array;
     int arrLength;
     ll generate(int current, int start, int end, vector<ll>& arr);
     ll query(int current, int start, int end, int left, int right);
@@ -19,9 +20,10 @@ public:
 };
 
 SegmentTree::SegmentTree(vector<long long>& arr) {
+    array = arr;
     arrLength = arr.size();
-    int h = ceil(log2(arrLength));
-    tree.resize(2 << (h + 1));
+    int h = (int) ceil(log2(arrLength));
+    tree.resize(2 << h);
     generate(1, 0, arrLength - 1, arr);
 }
 
@@ -56,12 +58,13 @@ ll SegmentTree::query(int left, int right) {
 }
 
 void SegmentTree::update(int idx, long long value) {
-    update(1, 0, arrLength - 1, idx - 1, value);
+    update(1, 0, arrLength - 1, idx - 1, value - array[idx - 1]);
+    array[idx - 1] = value;
 }
 
 int main() {
-    cin.tie(NULL);
     ios::sync_with_stdio(false);
+    cin.tie(NULL);
 
     int n, m, k;
     cin >> n >> m >> k;
@@ -77,8 +80,7 @@ int main() {
     while (m + k > 0) {
         cin >> q >> a >> b;
         if (q == 1) {
-            obj.update(a, b - arr[a - 1]);
-            arr[a - 1] = b;
+            obj.update(a, b);
             m--;
         } else {
             cout << obj.query(a, b) << '\n';
