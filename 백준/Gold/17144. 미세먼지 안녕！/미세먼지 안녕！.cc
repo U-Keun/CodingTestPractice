@@ -17,6 +17,10 @@ void diffuse(vector<vector<int>>& room) {
     for (int i = 0; i < r; ++i) {
         for (int j = 0; j < c; ++j) {
             if (room[i][j] <= 0) continue;
+            if (room[i][j] <= 4) {
+                update[i][j] += room[i][j];
+                continue;
+            }
             int diffusedDust = room[i][j] / 5;
             int row, col;
             for (int k = 0; k < 4; ++k) {
