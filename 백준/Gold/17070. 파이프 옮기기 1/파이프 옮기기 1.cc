@@ -4,7 +4,6 @@
     ios::sync_with_stdio(false); \
     cin.tie(NULL); \
     cout.tie(NULL);
-#define ll long long
 
 using namespace std;
 
@@ -25,7 +24,7 @@ int main() {
         }
     }
 
-    vector<vector<vector<ll> > > dp(3, vector<vector<ll> >(n, vector<ll>(n, 0)));
+    vector<vector<vector<int> > > dp(3, vector<vector<int> >(n, vector<int>(n, 0)));
     for (int i = 1; i < n; i++) {
         if (house[0][i] == 1) break;
         dp[0][0][i] = 1;
