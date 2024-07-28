@@ -14,12 +14,12 @@ class SegmentTree {
     vector<int> array;
     int arrLength;
     pair<int, int>& generate(int, int, int);
-    pair<int, int> query(int, int, int, int, int);
+    pair<int, int> query(int, int, int, int, int) const;
     void update(int, int, int, int, int);
     pair<int, int> updateChoice(pair<int, int>&, pair<int, int>&) const;
 public:
     explicit SegmentTree(const vector<int>&);
-    int query(int, int);
+    int query(int, int) const;
     void update(int, int);
 };
 
@@ -68,19 +68,16 @@ pair<int, int> SegmentTree::updateChoice(pair<int, int>& left, pair<int, int>& r
     return tmp;
 }
 
-pair<int, int> SegmentTree::query(const int current, const int start, const int end, const int left, const int right) {
-    pair<int, int> tmp;
-    tmp.first = -1;
-    tmp.second = -1;
+pair<int, int> SegmentTree::query(const int current, const int start, const int end, const int left, const int right) const {
+    pair<int, int> tmp(-1, -1);
     if (left > end || right < start) {
         return tmp;
     }
     if (left <= start && right >= end) return this->tree[current];
     const int mid = (start + end) / 2;
-    pair<int, int> leftHalf = query(current * 2, start, mid, left, right);
-    pair<int, int> rightHalf = query(current * 2 + 1, mid + 1, end, left, right);
-    tmp = updateChoice(leftHalf, rightHalf);
-    return tmp;
+    pair<int, int> leftHalf = query(current * 2, start, mid, left, right),
+        rightHalf = query(current * 2 + 1, mid + 1, end, left, right);
+    return updateChoice(leftHalf, rightHalf);
 }
 
 void SegmentTree::update(const int current, const int start, const int end, const int idx, const int value) {
@@ -93,7 +90,7 @@ void SegmentTree::update(const int current, const int start, const int end, cons
     }
 }
 
-int SegmentTree::query(const int left, const int right) {
+int SegmentTree::query(const int left, const int right) const {
     const pair<int, int> choice = query(1, 0, this->arrLength - 1, left - 1, right - 1);
     return this->array[choice.first] + this->array[choice.second];
 }
@@ -106,6 +103,7 @@ void SegmentTree::update(const int idx, const int value) {
 
 
 int main() {
+// int algorithm() {
     FAST_IO();
 
     int n;
