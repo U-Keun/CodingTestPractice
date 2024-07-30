@@ -31,7 +31,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int v1 = Integer.parseInt(st.nextToken()), v2 = Integer.parseInt(st.nextToken());
             int[] fromStart = dijkstra(1, graph), toEnd = dijkstra(N, graph), fromV = dijkstra(v1, graph);
-            long path1 = (long) fromStart[v1] + (long) fromV[v2] + (long) toEnd[v2], path2 = (long) fromStart[v2] + (long) fromV[v2] + (long) toEnd[v1];
+            long path1 = (long) fromStart[v1] + fromV[v2] + toEnd[v2], path2 = (long) fromStart[v2] + fromV[v2] + toEnd[v1];
             if (Math.min(path1, path2) >= INF) bw.write(String.valueOf(-1));
             else bw.write(String.valueOf(Math.min(path1, path2)));
             bw.flush();
