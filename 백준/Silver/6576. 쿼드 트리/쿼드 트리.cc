@@ -9,23 +9,27 @@ using namespace std;
 
 int n, strIdx = 0;
 string input;
-vector< vector<int> > decoded;
+vector< vector<bool> > decoded;
 int x[4] = {0, 0, 1, 1};
 int y[4] = {0, 1, 0, 1};
 
-void reccurence(int currentRow, int currentCol, int copyCount) {
+void reccurence(int currentRow,
+                int currentCol,
+                int copyCount) {
     if (strIdx >= input.size()) return;
 
     if (input[strIdx] == 'Q') {
         strIdx++;
         for (int i = 0; i < 4; i++) {
-            reccurence(currentRow + x[i] * copyCount / 2, currentCol + y[i] * copyCount / 2, copyCount / 2);
+            reccurence(currentRow + x[i] * copyCount / 2,
+                        currentCol + y[i] * copyCount / 2,
+                        copyCount / 2);
         }
     } else {
         if (input[strIdx] == 'B') {
             for (int j = 0; j < copyCount; j++) {
                 for (int k = 0; k < copyCount; k++) {
-                    decoded[currentRow + j][currentCol + k] = 1;
+                    decoded[currentRow + j][currentCol + k] = true;
                 }
             }
         }
@@ -40,7 +44,7 @@ int main() {
     cin >> n;
     cin >> input;
 
-    decoded.resize(n, vector<int>(n));
+    decoded.resize(n, vector<bool>(n));
 
     reccurence(0, 0, n);
 
