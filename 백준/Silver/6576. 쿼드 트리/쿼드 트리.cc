@@ -16,8 +16,6 @@ int y[4] = {0, 1, 0, 1};
 void reccurence(int currentRow,
                 int currentCol,
                 int copyCount) {
-    if (strIdx >= input.size()) return;
-
     if (input[strIdx] == 'Q') {
         strIdx++;
         for (int i = 0; i < 4; i++) {
