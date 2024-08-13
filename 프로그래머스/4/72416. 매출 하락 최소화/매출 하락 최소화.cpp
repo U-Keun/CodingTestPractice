@@ -12,29 +12,28 @@ int calcMin(int current,
             vector<int>& sales) {
     if (dp[current][isContained] != -1) return dp[current][isContained];
     
-    if (graph[current].size() == 0) {
-        return isContained ? sales[current] : 0;
+    if (graph[current].empty()) {
+        return dp[current][isContained] = (isContained ? sales[current] : 0);
     }
     
-    int minDiff = INT_MAX, 
-    	childrenCnt = graph[current].size(), 
-    	value = isContained ? sales[current] : 0;
-    bool chk = false;
-    for (int i = 0; i < childrenCnt; i++) {
-        int containCrt = calcMin(graph[current][i], true, graph, dp, sales),
-        	notContainCrt = calcMin(graph[current][i], false, graph, dp, sales);
-        minDiff = min(minDiff, containCrt - notContainCrt);
-        if (containCrt > notContainCrt) {
-            value += notContainCrt;
+    int minDiff = INT_MAX, total = 0; 
+    bool mustIncludeChild = false;
+   
+    for (int child : graph[current]) {
+        int includeChild = calcMin(child, true, graph, dp, sales), 
+        	excludeChild = calcMin(child, false, graph, dp, sales);
+
+        if (includeChild > excludeChild) {
+            total += excludeChild;
+            minDiff = min(minDiff, includeChild - excludeChild);
         } else {
-            value += containCrt;
-            chk = true;
+            total += includeChild;
+            mustIncludeChild = true;
         }
     }
     
-    if (!isContained && !chk) value += minDiff;
-    dp[current][isContained] = value;
-    return value;
+    if (!isContained && !mustIncludeChild) total += minDiff;
+    return dp[current][isContained] = total + (isContained ? sales[current] : 0);
 }
 
 int solution(vector<int> sales, vector<vector<int>> links) {    
