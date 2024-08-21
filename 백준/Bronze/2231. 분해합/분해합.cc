@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #define FAST_IO cin.tie(NULL)->ios::sync_with_stdio(false);
 
@@ -20,9 +21,10 @@ int main() {
     int n;
     cin >> n;
 
-    for (int i = 1; i < n; i++) {
-        int value = i + getDigitSum(i);
-        if (value == n) {
+    const int digits = static_cast<int>(log10(abs(n))) + 1;
+
+    for (int i = n - 9 * digits; i < n; i++) {
+        if (i + getDigitSum(i) == n) {
             cout << i << '\n';
             return 0;
         }
