@@ -14,14 +14,15 @@ bool isValidPth(queue<char> charQueue) {
                 stack.push(cur);
                 continue;
         }
+        
         if (stack.empty()) {
-            if (cur == ')' || cur == '}' || cur == ']') return false;
-        } else {
-            if (stack.top() == '(' && cur == ')') stack.pop();
-            else if (stack.top() == '{' && cur == '}') stack.pop();
-            else if (stack.top() == '[' && cur == ']') stack.pop();
-            else return false;
+            return false;
         }
+        
+        if ((stack.top() == '(' && cur == ')') ||
+            (stack.top() == '{' && cur == '}') ||
+            (stack.top() == '[' && cur == ']')) stack.pop();
+        else return false;
     }
     
     return stack.empty();
