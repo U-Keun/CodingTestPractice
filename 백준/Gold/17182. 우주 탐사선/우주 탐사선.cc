@@ -14,7 +14,7 @@ int findMinTime(int current, int visitedMask) {
         return 0;
     }
 
-    int minTime = 100000001;
+    int minTime = 10001;
     for (int next = 0; next < n; next++) {
         if (!(visitedMask & (1 << next))) {
             int timeToNext = graph[current][next] + findMinTime(next, visitedMask | (1 << next));
