@@ -6,34 +6,9 @@
 
 using namespace std;
 
-int n, m;
-vector<vector<short>> board;
-int dx[4] = { -1, 0, 0, 1 },
-    dy[4] = {0, -1, 1, 0 };
-
-bool isValidPosition(int row, int col) {
-    return row >= 0 && row < n && col >= 0 && col < n;
-}
-
-//enum 중력 방향 조절
-
-
-// 가장 큰 블록 그룹 찾기
-
-
-// 격자에 중력이 작용한다.
-
 int main() {
 // int algorithm() {
     FAST_IO
-
-//    cin >> n >> m;
-//    board.resize(n, vector<short>(n));
-//    for (int i = 0; i < n; i++) {
-//        for (int j = 0; j < n; j++) {
-//            cin >> board[i][j];
-//        }
-//    }
 
     int n, m;
     cin >> n >> m;
