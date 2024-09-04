@@ -14,6 +14,13 @@ public:
         isRegistered = false; 
         counter = 0;
     }
+    
+    ~Node() {
+        for (auto& child : children) {
+            delete child.second;
+        }
+    }
+    
     void insertChar(char c) {
         if (children.find(c) == children.end()) {
             children[c] = new Node();
@@ -46,9 +53,11 @@ int solution(vector<string> words) {
                 answer += val;
                 break;
             }
-            if (val == word.size()) answer += val;
+        	if (val == word.size()) answer += val;
         }
     }
+    
+    delete root;
     
     return answer;
 }
