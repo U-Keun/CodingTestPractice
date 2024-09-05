@@ -26,8 +26,8 @@ int solution(vector<vector<int>> scores) {
         REP(j, i + 1, m - 1) {
 	    if (candidates[i][0] == candidates[j][0]) continue;
             if (candidates[i][1] < candidates[j][1]) {
-				deleteCount++;
-				break;            
+		deleteCount++;
+		break;            
             }
         }
     }
