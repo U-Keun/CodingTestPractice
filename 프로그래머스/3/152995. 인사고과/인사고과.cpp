@@ -5,6 +5,7 @@
 using namespace std;
 
 #define REP(i,a,b) for (int i = a; i <= b; i++)
+#define REP_D(i,a,b) for (int i = a; i >= b; i--)
 
 int solution(vector<vector<int>> scores) {
     vector<vector<int>> candidates;
@@ -22,11 +23,11 @@ int solution(vector<vector<int>> scores) {
     sort(candidates.begin(), candidates.end());
     int m = candidates.size(), deleteCount = 0;
     REP(i, 0, m - 1) {
-        REP(j, i + 1, m - 1) {
-	    if (candidates[i][0] == candidates[j][0]) continue;
+        REP_D(j, m - 1, i + 1) {
+			if (candidates[i][0] == candidates[j][0]) continue;
             if (candidates[i][1] < candidates[j][1]) {
-		deleteCount++;
-		break;            
+				deleteCount++;
+				break;            
             }
         }
     }
