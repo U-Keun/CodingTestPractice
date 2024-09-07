@@ -1,10 +1,10 @@
 # [level 4] 행렬과 연산 - 118670 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/118670#) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/118670) 
 
 ### 성능 요약
 
-메모리: 58.6 MB, 시간: 57.45 ms
+메모리: 58.6 MB, 시간: 55.13 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 09월 07일 15:46:22
+2024년 09월 07일 15:54:48
 
 ### 문제 설명
 
