@@ -28,21 +28,16 @@ int main() {
 
         vector<int> record(n, 100000001);
         record[c - 1] = 0;
-        vector<bool> visited(n, false);
-        visited[c - 1] = true;
 
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
         pq.push({ 0, c - 1 });
         while (!pq.empty()) {
             pair<int, int> tmp = pq.top();
-            visited[tmp.second] = true;
             pq.pop();
 
             if (tmp.first > record[tmp.second]) continue;
 
             for (pair<int, int> node : graph[tmp.second]) {
-                if (visited[node.second]) continue;
-
                 if (record[tmp.second] + node.first < record[node.second]) {
                     record[node.second] = record[tmp.second] + node.first;
                     pq.push({ record[node.second], node.second });
