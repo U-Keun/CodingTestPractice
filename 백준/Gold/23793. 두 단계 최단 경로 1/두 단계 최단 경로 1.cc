@@ -9,7 +9,7 @@ using namespace std;
 #define REP(i,a,b) for (int i = a; i <= b; i++)
 #define MAX 10000000000
 
-vector<long long> dijkstra(int start, int n, const vector<vector<pair<int, int>>> &graph) {
+vector<long long> dijkstra(int start, int n, const vector<vector<pair<int, int>>> &graph, int y) {
     vector<long long> dist(n, MAX);
     priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
     pq.emplace(0, start);
@@ -23,7 +23,7 @@ vector<long long> dijkstra(int start, int n, const vector<vector<pair<int, int>>
         if (wt > dist[node]) continue;
 
         for (const auto& edge : graph[node]) {
-            if (wt + edge.second < dist[edge.first]) {
+            if ((y < 0 || edge.first != y) && wt + edge.second < dist[edge.first]) {
                 dist[edge.first] = wt + edge.second;
                 pq.emplace(dist[edge.first], edge.first);
             }
@@ -49,43 +49,16 @@ int main() {
     int x, y, z;
     cin >> x >> y >> z;
 
-    vector<long long> recordFromX = dijkstra(x - 1, n, graph);
-    vector<long long> recordFromY = dijkstra(y - 1, n, graph);
+    vector<long long> recordFromX = dijkstra(x - 1, n, graph, -1);
+    vector<long long> recordFromY = dijkstra(y - 1, n, graph, -1);
+    vector<long long> recordWithoutY = dijkstra(x - 1, n, graph, y - 1);
 
-    vector<long long> recordWithoutY(n, MAX);
-    recordWithoutY[x - 1] = 0;
 
-    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
-    pq.emplace(0, x - 1);
-    while (!pq.empty()) {
-        long long wt = pq.top().first;
-        int node = pq.top().second;
-        pq.pop();
-
-        if (wt > recordWithoutY[node]) continue;
-
-        for (const auto& edge : graph[node]) {
-            if (edge.first != y - 1 && wt + edge.second < recordWithoutY[edge.first]) {
-                recordWithoutY[edge.first] = wt + edge.second;
-                pq.emplace(recordWithoutY[edge.first], edge.first);
-            }
-        }
-    }
-
-    long long lengthWithY, lengthWithoutY;
-
-    if (recordFromX[y - 1] >= MAX || recordFromY[z - 1] >= MAX)
-        lengthWithY = MAX;
-    else
-        lengthWithY = recordFromX[y - 1] + recordFromY[z - 1];
-
-    lengthWithoutY = recordWithoutY[z - 1];
-
-    if (lengthWithY >= MAX) cout << -1;
-    else cout << lengthWithY;
+    if (recordFromX[y - 1] >= MAX || recordFromY[z - 1] >= MAX) cout << -1;
+    else cout << recordFromX[y - 1] + recordFromY[z - 1];
     cout << " ";
-    if (lengthWithoutY >= MAX) cout << -1;
-    else cout << lengthWithoutY;
+    if (recordWithoutY[z - 1] >= MAX) cout << -1;
+    else cout << recordWithoutY[z - 1];
 
     return 0;
 }
