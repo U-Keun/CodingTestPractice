@@ -46,7 +46,7 @@ vector<int> solution(vector<vector<int>> edges, vector<int> target) {
     }
     
     vector<int> dropped(n), seq;
-    int cur, total_dropped = 0;
+    int cur;
     while (stop_flag > 0) {
         cur = findLeaf(0, graph);
         
