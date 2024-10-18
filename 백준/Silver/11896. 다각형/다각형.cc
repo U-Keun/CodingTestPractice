@@ -5,21 +5,30 @@
 
 using namespace std;
 
-#define REP(i,a,b) for (int i = a; i <= b; i++)
-
 int main() {
     FAST_IO
 
     int a, b;
     cin >> a >> b;
-
-    long long answer = 0;
-    REP(i, max(3, a), b) {
-        if (i % 2 == 1) continue;
-        answer += i;
+    
+    if (b <= 3) {
+        cout << 0;
+        return 0;
     }
     
-    cout << answer;
+    if (a % 2 == 1) a++;
+    if (b % 2 == 1) b--;
+    a = max(a, 4);
+    b = max(b, 4);
     
+    if (a > b) {
+        cout << 0;
+        return 0;
+    }
+
+    long long answer = (long long) (a + b) * ((b - a) / 2 + 1) / 2;
+
+    cout << answer;
+
     return 0;
 }
