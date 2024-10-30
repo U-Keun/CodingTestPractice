@@ -11,22 +11,19 @@ int main() {
     int k;
     cin >> k;
 
-    vector<bool> mark(500001, false);
+    vector<bool> mark(7850000, false);
     vector<int> prime_numbers;
-    for (int i = 2; i <= 500000; ++i) {
+    for (int i = 2; i <= 7850000; ++i) {
         if (mark[i]) continue;
         prime_numbers.push_back(i);
-        for (int j = i; j <= 500000; j += i) {
-            if (mark[j]) continue;
+        if (prime_numbers.size() >= k) break;
+        for (long long j = 1LL * i * i; j <= 7850000; j += i) {
+            if (j > 7850000 || mark[j]) continue;
             mark[j] = true;
         }
-
-        if (prime_numbers.size() >= k) break;
     }
 
     cout << prime_numbers[k - 1];
-
-
 
     return 0;
 }
