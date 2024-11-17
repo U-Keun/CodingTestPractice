@@ -11,16 +11,15 @@ using namespace std;
 int main() {
     FAST_IO
 
-    unordered_map<char, char> index = {
-            {'A', '0' },
-            {'C', '1' },
-            {'G', '2' },
-            {'T', '3' },
-            { '0', 'A' },
-            { '1', 'C' },
-            { '2', 'G' },
-            { '3', 'T' }
-    };
+    char index[256];
+    index['A'] = '0';
+    index['C'] = '1';
+    index['G'] = '2';
+    index['T'] = '3';
+    index['0'] = 'A';
+    index['1'] = 'C';
+    index['2'] = 'G';
+    index['3'] = 'T';
 
     int n, m;
     cin >> n >> m;
