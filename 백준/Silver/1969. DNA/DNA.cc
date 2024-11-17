@@ -35,7 +35,7 @@ int main() {
     }
 
     string dna = "";
-    int idx, cur = 0, sum = 0;
+    int idx, sum = 0;
     REP(i, 0, m - 1) {
         idx = 0;
         REP(j, 1, 3) {
