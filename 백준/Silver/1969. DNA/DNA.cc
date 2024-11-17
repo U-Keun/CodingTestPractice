@@ -24,13 +24,12 @@ int main() {
 
     int n, m;
     cin >> n >> m;
-
-    vector<vector<int>> record(m, vector<int>(4, 0));
+    vector<int> record(m * 4, 0);
     string input;
     REP(i, 0, n - 1) {
         cin >> input;
         REP(j, 0, m - 1) {
-            record[j][index[input[j]] - '0']++;
+            record[j * 4 + (index[input[j]] - '0')]++;
         }
     }
 
@@ -39,11 +38,11 @@ int main() {
     REP(i, 0, m - 1) {
         idx = 0;
         REP(j, 1, 3) {
-            if (record[i][idx] < record[i][j]) idx = j;
+            if (record[i * 4 + idx] < record[i * 4 + j]) idx = j;
         }
 
         dna += index['0' + idx];
-        sum += n - record[i][idx];
+        sum += n - record[i * 4 + idx];
     }
 
     cout << dna << '\n' << sum;
