@@ -49,7 +49,7 @@ public class Main {
     }
     public static int find(int x) {
         if (parentRecord[x] == x) return x;
-        return find(parentRecord[x]);
+        return parentRecord[x] = find(parentRecord[x]);
     }
     public static boolean union(int x, int y) {
         x = find(x);
