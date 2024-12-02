@@ -23,7 +23,7 @@ int main() {
 
     for (int i = l - 3; i >= 0; i--) {
         for (int j = i + 2; j < l; j++) {
-            if (input[i] == input[j]) record[i][j] = record[i + 1][j - 1];
+            record[i][j] = (record[i + 1][j - 1] && !(input[i] ^ input[j]));
         }
     }
 
@@ -33,6 +33,7 @@ int main() {
         for (int i = 0; i <= j; i++) {
             if (!record[i][j]) continue;
             dp[j + 1] = min(dp[j + 1], dp[i] + 1);
+            if (dp[j + 1] == 1) break;
         }
     }
 
