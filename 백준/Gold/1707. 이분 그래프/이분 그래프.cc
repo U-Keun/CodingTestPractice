@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 
 #define FAST_IO cin.tie(NULL)->ios::sync_with_stdio(false);
 
@@ -8,26 +7,25 @@ using namespace std;
 
 #define REP(i,a,b) for (int i = a; i <= b; i++)
 
-bool is_bipartite(vector<vector<int>> &graph) {
+bool dfs(int cur, int color, const vector<vector<int>> &graph, vector<int> &colors) {
+    colors[cur] = color;
+
+    for (auto &nbd : graph[cur]) {
+        if (colors[nbd] == -1) {
+            if (!dfs(nbd, 1 - color, graph, colors)) return false;
+        } else if (colors[cur] == colors[nbd]) return false;
+    }
+
+    return true;
+}
+
+bool is_bipartite(const vector<vector<int>> &graph) {
     int n = graph.size();
-    vector<int> color(n, -1);
+    vector<int> colors(n, -1);
 
     REP(i, 0, n - 1) {
-        if (color[i] != -1) continue;
-
-        queue<int> q;
-        q.push(i);
-        color[i] = 0;
-
-        while (!q.empty()) {
-            int tmp = q.front(); q.pop();
-
-            for (auto &nbd : graph[tmp]) {
-                if (color[nbd] == -1) {
-                    color[nbd] = 1 - color[tmp];
-                    q.push(nbd);
-                } else if (color[nbd] == color[tmp]) return false;
-            }
+        if (colors[i] == -1) {
+            if (!dfs(i, 0, graph, colors)) return false;
         }
     }
 
@@ -42,11 +40,11 @@ int main() {
     while (k-- > 0) {
         cin >> v >> e;
         vector<vector<int>> graph(v);
-        int u, v;
+        int u, w;
         while (e-- > 0) {
-            cin >> u >> v;
-            graph[u - 1].emplace_back(v - 1);
-            graph[v - 1].emplace_back(u - 1);
+            cin >> u >> w;
+            graph[u - 1].emplace_back(w - 1);
+            graph[w - 1].emplace_back(u - 1);
         }
 
         if (is_bipartite(graph)) cout << "YES\n";
