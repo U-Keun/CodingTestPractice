@@ -11,21 +11,21 @@ int n, m, cur_idx;
 vector<long long> arr;
 vector<pair<int, int>> range_record;
 vector<vector<int>> graph;
+vector<int> reverse_map;
 
 struct seg_tree {
     int size;
-    vector<long long> tree, lazy;
+    vector<long long> lazy;
 
     seg_tree(int size) {
         this->size = size;
-        tree.resize(4 * size);
         lazy.resize(4 * size);
     }
 
     void update_lazy(int cur, int start, int end) {
         if (lazy[cur] == 0) return;
         if (start == end) {
-            tree[cur] += lazy[cur];
+            arr[reverse_map[start]] += lazy[cur];
         } else {
             lazy[cur * 2] += lazy[cur];
             lazy[cur * 2 + 1] += lazy[cur];
@@ -38,7 +38,7 @@ struct seg_tree {
         if (right < start || left > end) return;
         if (left <= start && end <= right) {
             if (start == end) {
-                tree[cur] += val;
+                arr[reverse_map[start]] += val;
             } else {
                 lazy[cur * 2] += val;
                 lazy[cur * 2 + 1] += val;
@@ -50,10 +50,18 @@ struct seg_tree {
         update_range(cur * 2 + 1, mid + 1, end, left, right, val);
     };
 
+    void prepare_query(int cur, int start, int end, int idx) {
+        update_lazy(cur, start, end);
+        if (idx < start || idx > end || start == end) return;
+        int mid = (start + end) / 2;
+        prepare_query(cur * 2, start, mid, idx);
+        prepare_query(cur * 2 + 1, mid + 1, end, idx);
+    }
+
     long long query(int cur, int start, int end, int idx) {
         update_lazy(cur, start, end);
         if (idx < start || idx > end) return 0;
-        if (start == end) return tree[cur];
+        if (start == end) return arr[reverse_map[start]];
         int mid = (start + end) / 2;
         return query(cur * 2, start, mid, idx) + query(cur * 2 + 1, mid + 1, end, idx);
     }
@@ -61,6 +69,7 @@ struct seg_tree {
 
 void rearrange_graph(int node) {
     range_record[node].first = ++cur_idx;
+    reverse_map[cur_idx] = node;
     for (auto &child : graph[node]) {
         if (range_record[child].first != -1) continue;
         rearrange_graph(child);
@@ -74,6 +83,7 @@ int main() {
     cin >> n >> m;
     arr.resize(n);
     graph.resize(n);
+    reverse_map.resize(n);
     cin >> arr[0];
     REP(i, 1, n - 1) {
         cin >> arr[i];
@@ -87,7 +97,6 @@ int main() {
     rearrange_graph(0);
 
     seg_tree seg(n);
-    REP(i, 0, n - 1) seg.update_range(1, 0, n - 1, range_record[i].first, range_record[i].first, arr[i]);
 
     while (m--) {
         char q; cin >> q;
@@ -98,7 +107,9 @@ int main() {
         } else { // q == 'u'
             int a; cin >> a;
             a--;
-            cout << seg.query(1, 0, n - 1, range_record[a].first) << '\n';
+            seg.prepare_query(1, 0, n - 1, range_record[a].first);
+//            cout << seg.query(1, 0, n - 1, range_record[a].first) << '\n';
+            cout << arr[a] << '\n';
         }
     }
 
