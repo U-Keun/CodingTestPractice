@@ -11,7 +11,7 @@ using namespace std;
 #define ll long long
 
 vector<ll> test_bases = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
-unordered_map<ll, int> factors;
+unordered_map<ll, bool> factors;
 
 ll power_mod(ll a, ll b, ll mod) {
     ll res = 1;
@@ -84,7 +84,7 @@ ll pollard_rho(ll n) {
 void factorize(ll n) {
     if (n == 1) return;
     if (is_prime(n)) {
-        factors[n]++;
+        factors[n] ^= 1;
         return;
     }
     ll divisor = pollard_rho(n);
@@ -112,11 +112,9 @@ int main() {
 
     factorize(num);
 
-    int _3mod4 = 0;
     for (auto f : factors) {
-        ll p = f.first;
-        int e = f.second;
-        if(p % 4 == 3 && (e % 2 == 1)){
+        if (!f.second) continue; // 인수가 짝수 개
+        if ((f.first % 4) == 3) {
             cout << 3;
             return EXIT_SUCCESS;
         }
