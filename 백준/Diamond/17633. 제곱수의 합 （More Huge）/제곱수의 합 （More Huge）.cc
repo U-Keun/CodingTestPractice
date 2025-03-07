@@ -12,6 +12,7 @@ using namespace std;
 
 vector<ll> test_bases = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 };
 unordered_map<ll, bool> factors;
+ll num, common_factor;
 
 ll power_mod(ll a, ll b, ll mod) {
     ll res = 1;
@@ -85,6 +86,10 @@ void factorize(ll n) {
     if (n == 1) return;
     if (is_prime(n)) {
         factors[n] ^= 1;
+        if (!factors[n]) {
+            num /= n * n;
+            common_factor *= n;
+        }
         return;
     }
     ll divisor = pollard_rho(n);
@@ -95,25 +100,24 @@ void factorize(ll n) {
 int main() {
     FAST_IO
 
-    ll num; cin >> num;
+    cin >> num;
 
-    ll rt = (ll)floorl(sqrtl((long double)num));
+    ll rt = (ll) floorl(sqrtl((long double)num));
     if(rt * rt == num) {
         cout << 1;
         return EXIT_SUCCESS;
     }
 
-    ll tmp = num;
-    while(tmp % 4 == 0) tmp /= 4;
-    if(tmp % 8 == 7) {
+    common_factor = 1;
+    factorize(num);
+
+    if(num % 8 == 7) {
         cout << 4;
         return EXIT_SUCCESS;
     }
 
-    factorize(num);
-
     for (auto f : factors) {
-        if (!f.second) continue; // 인수가 짝수 개
+        if (!f.second) continue;
         if ((f.first % 4) == 3) {
             cout << 3;
             return EXIT_SUCCESS;
