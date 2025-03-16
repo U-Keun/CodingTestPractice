@@ -23,12 +23,8 @@ int main() {
             record[pref[i][0]]++;
         }
 
-        bool determined = false;
         pair<int, int> candi = { 0, 0 };
         for (int i = 1; i <= c; i++) {
-            if (record[i] > v / 2) {
-                determined = true;
-            }
             if (record[i] > record[candi.first]) {
                 candi.second = candi.first;
                 candi.first = i;
@@ -37,7 +33,7 @@ int main() {
             }
         }
 
-        if (determined) {
+        if (record[candi.first] > v / 2) {
             cout << candi.first << " 1\n";
             continue;
         }
@@ -57,9 +53,7 @@ int main() {
             }
         }
 
-        if (cnt_f > cnt_s) cout << candi.first;
-        else cout << candi.second;
-        cout << " 2\n";
+        cout << (cnt_f > cnt_s ? candi.first : candi.second) << " 2\n";
     }
 
     return EXIT_SUCCESS;
