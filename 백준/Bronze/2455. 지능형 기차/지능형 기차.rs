@@ -1,25 +1,21 @@
-use std::io;
+use std::io::{ self, BufRead };
 
 fn main() {
+    let stdin = io::stdin();
     let mut count = 0u32;
     let mut answer = 0u32;
-    for _ in 0..4 {
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).unwrap();
-
-        let parsing: Vec<u32> = input
+    
+    for line in stdin.lock().lines().take(4) {
+        let input = line.unwrap();
+        let mut parts = input
             .split_whitespace()
-            .map(|x| x.parse().unwrap())
-            .collect();
+            .map(|s| s.parse::<u32>().unwrap());
 
-        let (_out, _in) = (parsing[0], parsing[1]);
+        let _out = parts.next().unwrap();
+        let _in = parts.next().unwrap();
 
-        count -= _out;
-        count += _in;
-
-        if answer < count {
-            answer = count;
-        }
+        count = count - _out + _in;
+        answer = answer.max(count);
     }
 
     println!("{}", answer);
