@@ -1,25 +1,26 @@
 use std::io::{ self, BufRead };
 
 fn main() {
-    let stdin = io::stdin();
-    let mut sum = 0u32;
-    let mut min = 100u32;
-    for line in stdin.lock().lines().take(7) {
-        let num = line.unwrap()
-            .trim()
-            .parse()
-            .unwrap();
+    let lines = io::stdin().lock().lines().take(7);
 
-        if num % 2 == 1 {
-            sum += num;
-            min = min.min(num);
+    let (sum, min_opt) = lines
+        .filter_map(|line| {
+            line.ok()
+                .and_then(|s| s.trim().parse::<u32>().ok())
+        })
+        .filter(|&n| n % 2 == 1)
+        .fold((0u32, None::<u32>), |(sum, min_opt), n| {
+            let new_min = Some(min_opt.map_or(n, |m| m.min(n)));
+            (sum + n, new_min)
+        });
+    
+    match min_opt {
+        Some(min_odd) => {
+            println!("{}", sum);
+            println!("{}", min_odd);
         }
-    }
-
-    if sum == 0 {
-        println!("-1");
-    } else {
-        println!("{}", sum);
-        println!("{}", min);
-    }
+        None => {
+            println!("-1");
+        }
+    } 
 }
