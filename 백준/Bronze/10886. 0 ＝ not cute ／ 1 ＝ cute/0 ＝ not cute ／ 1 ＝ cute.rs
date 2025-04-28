@@ -1,31 +1,21 @@
-use std::io;
-use std::str::FromStr;
-
-fn read_line_as<T: FromStr>() -> T
-    where T::Err: std::fmt::Debug,
-{
-    let mut buf = String::new();
-    io::stdin()
-        .read_line(&mut buf)
-        .expect("input error");
-    buf.trim().parse().expect("parse error")
-}
+use std::io::{ self, BufRead };
 
 fn main() {
-    let n: u32 = read_line_as();
+    let stdin = io::stdin();
+    let mut lines = stdin.lock().lines();
 
-    let mut cute = 0u32;
-    for _ in 0..n {
-        let op: u32 = read_line_as();
-        if op == 1 {
-            cute += 1;
-        }
-    }
+    let n: usize = lines.next().unwrap().unwrap()
+        .trim().parse().expect("parse error");
 
-    if cute > n / 2 {
-        println!("Junhee is cute!");
+    let cute = lines
+        .take(n).filter_map(Result::ok)
+        .filter(|line| line.trim() == "1")
+        .count();
+
+    let message = if cute * 2 > n {
+        "Junhee is cute!"
     } else {
-        println!("Junhee is not cute!");
-    }
-
+        "Junhee is not cute!"
+    };
+    println!("{}", message);
 }
