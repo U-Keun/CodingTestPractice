@@ -1,18 +1,17 @@
-use std::io;
+use std::io::{ self, Read };
 
-fn main() {
+fn main() -> io::Result<()> {
     let mut buf = String::new();
-    io::stdin().read_line(&mut buf).unwrap();
-    let mut it = buf.trim().split_whitespace();
-    let n: usize = it.next().unwrap().parse().unwrap();
-    let x: usize = it.next().unwrap().parse().unwrap();
+    io::stdin().read_to_string(&mut buf)?;
 
-    let mut nums = String::new();
-    io::stdin().read_line(&mut nums).unwrap();
-    let s: Vec<usize> = nums.trim()
+    let mut it = buf
         .split_whitespace()
-        .map(|k| k.parse::<usize>().unwrap())
-        .collect();
+        .map(|s| s.parse::<usize>().unwrap());
+
+    let n: usize = it.next().unwrap();
+    let x: usize = it.next().unwrap();
+
+    let s: Vec<usize> = it.collect();
 
     let answer = s
         .iter()
@@ -32,4 +31,5 @@ fn main() {
         .0;
 
     println!("{}", answer);
+    Ok(())
 }
