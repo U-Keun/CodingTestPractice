@@ -7,25 +7,23 @@ fn main() {
     let mut iter = buf.trim().split_whitespace()
         .map(|s| s.parse::<isize>().unwrap());
 
-    let a = iter.next().unwrap();
-    let b = iter.next().unwrap();
-    let c = iter.next().unwrap();
+    let (a, b, c) = (iter.next().unwrap(), iter.next().unwrap(), iter.next().unwrap());
 
-    if a + b == c {
-        println!("{}+{}={}", a, b, c);
-    } else if a - b == c {
-        println!("{}-{}={}", a, b, c);
-    } else if a * b == c {
-        println!("{}*{}={}", a, b, c);
-    } else if a / b == c {
-        println!("{}/{}={}", a, b, c);
-    } else if a == b + c {
-        println!("{}={}+{}", a, b, c);
-    } else if a == b - c {
-        println!("{}={}-{}", a, b, c);
-    } else if a == b * c {
-        println!("{}={}*{}", a, b, c);
-    } else if a == b / c {
-        println!("{}={}/{}", a, b, c);
+    let ops: [(char, fn(isize, isize) -> Option<isize>); 4] = [
+        ('+', |x, y| Some(x + y)),
+        ('-', |x, y| Some(x - y)),
+        ('*', |x, y| Some(x * y)),
+        ('/', |x, y| if y != 0 { Some(x / y) } else { None }),
+    ];
+
+    for &(sym, f) in &ops {
+        if f(a, b) == Some(c) {
+            println!("{}{}{}={}", a, sym, b, c);
+            return;
+        }
+        if f(b, c) == Some(a) {
+            println!("{}={}{}{}", a, b, sym, c);
+            return;
+        }
     }
 }
