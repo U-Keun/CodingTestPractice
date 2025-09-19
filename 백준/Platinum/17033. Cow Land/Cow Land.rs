@@ -57,15 +57,15 @@ fn dfs1(u: usize, p: usize, g: &Vec<Vec<usize>>,
 
 fn dfs2(u: usize, h: usize, g: &Vec<Vec<usize>>,
     parent: &[usize], heavy: &[usize],
-    head: &mut [usize], pos: &mut [usize], rev: &mut [usize], cur: &mut usize) {
+    head: &mut [usize], pos: &mut [usize], cur: &mut usize) {
     head[u] = h;
-    pos[u] = *cur; rev[*cur] = u; *cur += 1;
+    pos[u] = *cur; *cur += 1;
     if heavy[u] != 0 {
-        dfs2(heavy[u], h, g, parent, heavy, head, pos, rev, cur);
+        dfs2(heavy[u], h, g, parent, heavy, head, pos, cur);
     }
     for &v in &g[u] {
         if v == parent[u] || v == heavy[u] { continue; }
-        dfs2(v, v, g, parent, heavy, head, pos, rev, cur);
+        dfs2(v, v, g, parent, heavy, head, pos, cur);
     }
 }
 
@@ -104,9 +104,9 @@ fn main() {
         (vec![0; n + 1], vec![0; n + 1], vec![0; n + 1], vec![0; n + 1]);
     dfs1(1, 0, &g, &mut parent, &mut depth, &mut size, &mut heavy);
 
-    let (mut head, mut pos, mut rev) = (vec![0; n + 1], vec![0; n + 1], vec![0; n + 1]);
+    let (mut head, mut pos) = (vec![0; n + 1], vec![0; n + 1]);
     let mut cur = 0usize;
-    dfs2(1, 1, &g, &parent, &heavy, &mut head, &mut pos, &mut rev, &mut cur);
+    dfs2(1, 1, &g, &parent, &heavy, &mut head, &mut pos, &mut cur);
 
     let mut base = vec![0u64; n];
     for u in 1..=n { base[pos[u]] = val[u]; }
