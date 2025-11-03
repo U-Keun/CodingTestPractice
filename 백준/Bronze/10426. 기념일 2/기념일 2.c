@@ -7,11 +7,8 @@ static inline int is_leap(int y) {
 static const int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 static inline int mdays(int y, int m) {
-    if (m != 2) {
-        return days[m - 1];
-    } else if (is_leap(y)) {
-        return days[1] + 1;
-    } else { return days[1]; }
+    if (m != 2) return days[m - 1];
+    return days[1] + (is_leap(y) ? 1 : 0);
 }
 
 int main(int argc, char *argv[]) {
@@ -22,16 +19,10 @@ int main(int argc, char *argv[]) {
     while (n > 0) {
         int r = mdays(y, m) - d;
         if (r >= n) {
-            d += n;
-            n = 0;
+            d += n; n = 0;
         } else {
-            m++;
-            d = 1;
-            n -= r + 1;
-            if (m > 12) {
-                y++;
-                m %= 12;
-            }
+            d = 1; n -= r + 1;
+            if (++m == 13) { y++; m = 1; }
         }
     }
 
